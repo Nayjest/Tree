@@ -3,7 +3,6 @@ namespace Nayjest\Tree;
 
 use Nayjest\Collection\CollectionInterface;
 use Nayjest\Collection\CollectionReadInterface;
-use Nayjest\Collection\CollectionWriteInterface;
 
 /**
  * Class ParentNodeTrait
