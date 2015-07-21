@@ -1,8 +1,6 @@
 <?php
 namespace Nayjest\Tree;
 
-use Nayjest\Collection\CollectionInterface;
-
 /**
  * Class ParentNodeTrait
  *
@@ -36,7 +34,7 @@ trait ParentNodeTrait
     /**
      * Returns child components.
      *
-     * @return CollectionInterface
+     * @return \Nayjest\Collection\CollectionInterface
      */
     public function children()
     {
