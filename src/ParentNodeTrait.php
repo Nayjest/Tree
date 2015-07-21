@@ -50,6 +50,6 @@ trait ParentNodeTrait
 
     final public function isWritable()
     {
-        return $this->children() instanceof CollectionWriteInterface;
+        return $this->children()->isWritable();
     }
 }

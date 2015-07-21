@@ -63,7 +63,7 @@ trait ChildNodeTrait
         if ($parent === null) {
             throw new NoParentException;
         }
-        if (!$parent->children()->isWritable()) {
+        if (!$parent->isWritable()) {
             throw new ReadonlyNodeModifyException;
         }
     }
