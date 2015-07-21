@@ -1,7 +1,8 @@
 <?php
 namespace Nayjest\Tree;
 
-use RuntimeException;
+use Nayjest\Tree\Exceptions\NoParentException;
+use Nayjest\Tree\Exceptions\ReadonlyNodeModifyException;
 
 /**
  * Class ChildNodeTrait
@@ -60,14 +61,10 @@ trait ChildNodeTrait
     private static function checkWritableParent(ParentNodeInterface $parent = null)
     {
         if ($parent === null) {
-            throw new RuntimeException(
-                'Trying to detach node that\'s not attached to parent.'
-            );
+            throw new NoParentException;
         }
         if (!$parent->children()->isWritable()) {
-            throw new RuntimeException(
-                'Trying to detach node from immutable root'
-            );
+            throw new ReadonlyNodeModifyException;
         }
     }
 }

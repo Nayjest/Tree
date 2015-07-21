@@ -12,11 +12,16 @@ use Nayjest\Collection\CollectionReadInterface;
 interface ParentNodeInterface
 {
     /**
-     * Returns children collection.
+     * Returns children collection (writable or readonly).
      *
      * @return CollectionInterface|CollectionReadInterface
      */
     public function children();
 
+    /**
+     * Returns true in children collection is writable.
+     *
+     * @return bool
+     */
     public function isWritable();
 }

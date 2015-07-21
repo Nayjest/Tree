@@ -2,17 +2,29 @@
 
 namespace Nayjest\Tree;
 
+use Nayjest\Collection\CollectionReadInterface;
 use Nayjest\Collection\Decorator\ReadonlyCollection;
 
 trait ReadonlyParentNodeTrait
 {
     use ParentNodeTrait {
-        ParentNodeTrait::initializeCollection as private initializeWritableCollection;
-    };
+        ParentNodeTrait::children as private writableChildren;
+    }
 
-    protected function initializeCollection(array $items)
+    private $readonlyCollection;
+
+    /**
+     * Returns child components.
+     *
+     * @return CollectionReadInterface
+     */
+    public function children()
     {
-        $this->initializeWritableCollection($items);
-        $this->collection = new ReadonlyCollection($this->collection);
+        if ($this->readonlyCollection === null) {
+            $this->readonlyCollection = new ReadonlyCollection(
+                $this->writableChildren()
+            );
+        }
+        return $this->readonlyCollection;
     }
 }

@@ -2,6 +2,7 @@
 namespace Nayjest\Tree;
 
 use Nayjest\Collection\CollectionInterface;
+use Nayjest\Collection\CollectionReadInterface;
 use Nayjest\Collection\CollectionWriteInterface;
 
 /**
@@ -37,7 +38,7 @@ trait ParentNodeTrait
     /**
      * Returns child components.
      *
-     * @return CollectionInterface
+     * @return CollectionInterface|CollectionReadInterface
      */
     public function children()
     {
