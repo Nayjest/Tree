@@ -1,5 +1,6 @@
 <?php
 namespace Nayjest\Tree;
+
 use Nayjest\Collection\CollectionInterface;
 use Nayjest\Collection\CollectionReadInterface;
 
