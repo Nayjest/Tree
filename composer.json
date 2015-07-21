@@ -1,0 +1,39 @@
+{
+    "name": "nayjest/tree",
+    "description": "Tree data structure for PHP",
+    "keywords": [
+        "tree",
+        "trees",
+        "hierarchy"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vitalii [Nayjest] Stepanenko",
+            "email": "mail@vitaliy.in",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "nayjest/collection":"~0.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nayjest\\Tree\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Nayjest\\Tree\\Test\\": "tests"
+        }
+    },
+    "support": {
+        "email": "mail@vitaliy.in"
+    },
+    "minimum-stability": "dev"
+}
