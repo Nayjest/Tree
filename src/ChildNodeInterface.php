@@ -30,7 +30,19 @@ interface ChildNodeInterface
      */
     public function parent();
 
+    /**
+     * Detaches node from parent.
+     *
+     * @return $this
+     */
     public function detach();
 
+    /**
+     * Attaches node to parent.
+     *
+     * @param ParentNodeInterface $parent
+     *
+     * @return $this
+     */
     public function attachTo(ParentNodeInterface $parent);
 }
