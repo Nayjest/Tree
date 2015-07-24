@@ -5,6 +5,7 @@ Tree data structure for PHP
 
 [![Build Status](https://travis-ci.org/Nayjest/Tree.svg)](https://travis-ci.org/Nayjest/Tree)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Nayjest/Tree/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Nayjest/Tree/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/nayjest/tree/v/stable)](https://packagist.org/packages/nayjest/tree) 
 
 
 ## Requirements
