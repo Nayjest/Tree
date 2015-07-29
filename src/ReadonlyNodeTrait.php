@@ -5,5 +5,4 @@ trait ReadonlyNodeTrait
 {
     use ChildNodeTrait;
     use ReadonlyParentNodeTrait;
-    use NodeConstructorTrait;
 }

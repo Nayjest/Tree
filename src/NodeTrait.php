@@ -5,5 +5,4 @@ trait NodeTrait
 {
     use ChildNodeTrait;
     use ParentNodeTrait;
-    use NodeConstructorTrait;
 }
