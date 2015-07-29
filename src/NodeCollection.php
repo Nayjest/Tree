@@ -5,6 +5,12 @@ namespace Nayjest\Tree;
 use InvalidArgumentException;
 use Nayjest\Collection\Collection;
 
+/**
+ * Class NodeCollection.
+ *
+ * NodeCollection in addition to basic collection facilities
+ * manages parent-child relationships and guarantees tree structure integrity.
+ */
 class NodeCollection extends Collection
 {
     /**
