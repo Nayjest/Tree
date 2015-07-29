@@ -25,4 +25,6 @@ interface ParentNodeInterface
      * @return bool
      */
     public function isWritable();
+
+    public function getChildrenRecursive();
 }

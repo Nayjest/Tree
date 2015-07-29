@@ -1,5 +1,6 @@
 <?php
 namespace Nayjest\Tree;
+use Nayjest\Collection\Collection;
 
 /**
  * Class ParentNodeTrait
@@ -47,5 +48,17 @@ trait ParentNodeTrait
     final public function isWritable()
     {
         return $this->children()->isWritable();
+    }
+
+    public function getChildrenRecursive()
+    {
+        $res = new Collection();
+        foreach($this->children() as $child) {
+            $res->addItem($child);
+            if ($child instanceof ParentNodeInterface) {
+                $res->addItems($child->getChildrenRecursive());
+            }
+        }
+        return $res;
     }
 }
