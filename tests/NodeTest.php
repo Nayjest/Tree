@@ -44,7 +44,7 @@ class NodeTest extends PHPUnit_Framework_TestCase
         $oldRoot = new Node;
         $n = new Node($oldRoot);
 
-        $this->root->children()->addItem($n);
+        $this->root->children()->add($n);
         self::assertCount(3, $this->root->children());
         self::assertEquals($this->root, $n->parent());
         self::assertTrue($this->root->children()->contains($n));
