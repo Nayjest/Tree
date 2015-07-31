@@ -54,7 +54,7 @@ trait ChildNodeTrait
     final public function attachTo(ParentNodeInterface $parent)
     {
         self::checkWritableParent($parent);
-        $parent->children()->addItem($this);
+        $parent->children()->add($this);
         return $this;
     }
 

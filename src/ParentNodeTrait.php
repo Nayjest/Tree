@@ -1,6 +1,7 @@
 <?php
 namespace Nayjest\Tree;
 use Nayjest\Collection\Collection;
+use Nayjest\Collection\Extended\ObjectCollection;
 
 /**
  * Class ParentNodeTrait
@@ -52,11 +53,11 @@ trait ParentNodeTrait
 
     public function getChildrenRecursive()
     {
-        $res = new Collection();
+        $res = new ObjectCollection();
         foreach($this->children() as $child) {
-            $res->addItem($child);
+            $res->add($child);
             if ($child instanceof ParentNodeInterface) {
-                $res->addItems($child->getChildrenRecursive());
+                $res->addMany($child->getChildrenRecursive());
             }
         }
         return $res;
