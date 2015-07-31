@@ -15,7 +15,7 @@ trait NodeConstructorTrait
             $this->initializeCollection($children);
         }
         if ($parent !== null) {
-            $parent->children()->addItem($this);
+            $parent->children()->add($this);
         }
     }
 }

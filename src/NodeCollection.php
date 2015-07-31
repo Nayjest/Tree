@@ -3,7 +3,8 @@
 namespace Nayjest\Tree;
 
 use InvalidArgumentException;
-use Nayjest\Collection\Collection;
+use Nayjest\Collection\Extended\ObjectCollection;
+
 
 /**
  * Class NodeCollection.
@@ -11,7 +12,7 @@ use Nayjest\Collection\Collection;
  * NodeCollection in addition to basic collection facilities
  * manages parent-child relationships and guarantees tree structure integrity.
  */
-class NodeCollection extends Collection
+class NodeCollection extends ObjectCollection
 {
     /**
      * @var ParentNodeInterface
@@ -36,7 +37,7 @@ class NodeCollection extends Collection
      * @param bool $prepend Pass true to add component to the beginning of an array.
      * @return $this
      */
-    public function addItem($item, $prepend = false)
+    public function add($item, $prepend = false)
     {
         if (!$item instanceof ChildNodeInterface) {
             throw new InvalidArgumentException('NodeCollection accepts only objects implementing ChildNodeInterface');
@@ -49,7 +50,7 @@ class NodeCollection extends Collection
                     ->children()
                     ->remove($item);
             }
-            parent::addItem($item, $prepend);
+            parent::add($item, $prepend);
             $item->internalSetParent($this->parentNode);
         }
         return $this;
@@ -79,6 +80,6 @@ class NodeCollection extends Collection
 
     protected function createCollection(array $items)
     {
-        return new Collection($items);
+        return new ObjectCollection($items);
     }
 }
