@@ -1,6 +1,6 @@
 <?php
 namespace Nayjest\Tree;
-use Nayjest\Collection\Collection;
+
 use Nayjest\Collection\Extended\ObjectCollection;
 
 /**
@@ -10,6 +10,9 @@ use Nayjest\Collection\Extended\ObjectCollection;
  */
 trait ParentNodeTrait
 {
+    /**
+     * @var NodeCollection
+     */
     protected $collection;
 
     /**
@@ -24,6 +27,9 @@ trait ParentNodeTrait
         return [];
     }
 
+    /**
+     * @param array $items
+     */
     protected function initializeCollection(array $items)
     {
         /** @var ParentNodeInterface|ParentNodeTrait $this */
@@ -46,11 +52,17 @@ trait ParentNodeTrait
         return $this->collection;
     }
 
+    /**
+     * @return bool
+     */
     final public function isWritable()
     {
         return $this->children()->isWritable();
     }
 
+    /**
+     * @return ObjectCollection
+     */
     public function getChildrenRecursive()
     {
         $res = new ObjectCollection();
