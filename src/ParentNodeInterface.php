@@ -26,5 +26,8 @@ interface ParentNodeInterface
      */
     public function isWritable();
 
+    /**
+     * @return CollectionInterface
+     */
     public function getChildrenRecursive();
 }
