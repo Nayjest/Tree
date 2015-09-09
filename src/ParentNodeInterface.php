@@ -3,6 +3,7 @@ namespace Nayjest\Tree;
 
 use Nayjest\Collection\CollectionInterface;
 use Nayjest\Collection\CollectionReadInterface;
+use Nayjest\Collection\Extended\ObjectCollection;
 
 /**
  * Interface ParentNodeInterface
@@ -27,7 +28,7 @@ interface ParentNodeInterface
     public function isWritable();
 
     /**
-     * @return CollectionInterface
+     * @return CollectionInterface|ObjectCollection
      */
     public function getChildrenRecursive();
 }

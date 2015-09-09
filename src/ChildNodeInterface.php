@@ -1,6 +1,8 @@
 <?php
 namespace Nayjest\Tree;
 
+use Nayjest\Collection\Extended\ObjectCollection;
+
 /**
  * Interface ChildNodeInterface
  *
@@ -45,4 +47,9 @@ interface ChildNodeInterface
      * @return $this
      */
     public function attachTo(ParentNodeInterface $parent);
+
+    /**
+     * @return ObjectCollection
+     */
+    public function parents();
 }

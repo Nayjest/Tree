@@ -1,6 +1,7 @@
 <?php
 namespace Nayjest\Tree;
 
+use Nayjest\Collection\Extended\ObjectCollection;
 use Nayjest\Tree\Exceptions\NoParentException;
 use Nayjest\Tree\Exceptions\ReadonlyNodeModifyException;
 
@@ -42,6 +43,23 @@ trait ChildNodeTrait
     final public function parent()
     {
         return $this->parentNode;
+    }
+
+    /**
+     * @return ObjectCollection
+     */
+    public function parents()
+    {
+        $parents = new ObjectCollection();
+        $current = $this->parent();
+        while($current instanceof ParentNodeInterface) {
+            $parents->add($current);
+            if (!$current instanceof ChildNodeInterface) {
+                break;
+            }
+            $current = $current->parent();
+        }
+        return $parents;
     }
 
     final public function detach()
