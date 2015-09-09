@@ -4,6 +4,7 @@ namespace Nayjest\Tree;
 use Nayjest\Collection\CollectionInterface;
 use Nayjest\Collection\CollectionReadInterface;
 use Nayjest\Collection\Extended\ObjectCollection;
+use Traversable;
 
 /**
  * Interface ParentNodeInterface
@@ -31,4 +32,23 @@ interface ParentNodeInterface
      * @return CollectionInterface|ObjectCollection
      */
     public function getChildrenRecursive();
+
+    /**
+     * @param array|Traversable $children
+     * @return $this
+     */
+    public function setChildren($children);
+
+    /**
+     * @param $item
+     * @return $this
+     */
+    public function addChild(ChildNodeInterface $item);
+
+    /**
+     * @param array|Traversable $children
+     * @return $this
+     */
+    public function addChildren($children);
+
 }

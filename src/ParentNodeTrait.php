@@ -2,6 +2,7 @@
 namespace Nayjest\Tree;
 
 use Nayjest\Collection\Extended\ObjectCollection;
+use Traversable;
 
 /**
  * Class ParentNodeTrait
@@ -73,5 +74,35 @@ trait ParentNodeTrait
             }
         }
         return $res;
+    }
+
+    /**
+     * @param array|Traversable $children
+     * @return $this
+     */
+    public function setChildren($children)
+    {
+        $this->children()->set($children);
+        return $this;
+    }
+
+    /**
+     * @param $item
+     * @return $this
+     */
+    public function addChild(ChildNodeInterface $item)
+    {
+        $this->children()->add($item);
+        return $this;
+    }
+
+    /**
+     * @param array|Traversable $children
+     * @return $this
+     */
+    public function addChildren($children)
+    {
+        $this->children()->addMany($children);
+        return $this;
     }
 }
