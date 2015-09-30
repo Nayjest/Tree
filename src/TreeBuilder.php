@@ -27,10 +27,10 @@ class TreeBuilder
      * @param int $flags specifies tree building options, default: TreeBuilder::NORMALIZE_CONFIG; see TreeBuilder constants
      * @return NodeInterface[] items organized to tree structure; array keys are not preserved
      */
-    public function build(array $config, array $plainItems, $flags = self::NORMALIZE_CONFIG)
+    public function build(array $config, array $plainItems, $flags = TreeBuilder::NORMALIZE_CONFIG)
     {
         // preprocess config if needed
-        if ($flags & self::NORMALIZE_CONFIG) {
+        if ($flags & TreeBuilder::NORMALIZE_CONFIG) {
             $config = $this->normalizeConfig($config);
         }
         // resolve nodes on current tree level
@@ -40,20 +40,24 @@ class TreeBuilder
 
             // check that item specified in $config exists.
             if (!array_key_exists($key, $treeLevel)) {
-                if ($flags & self::ALLOW_ABSENT_ITEMS) {
+                if ($flags & TreeBuilder::ALLOW_ABSENT_ITEMS) {
                     continue;
-                } else {
-                    throw new InvalidTreeConfigException(
-                        'Error building tree: '
-                        . "Can't find item by '$key' key that's used in tree configuration."
-                    );
                 }
+                throw new InvalidTreeConfigException(
+                    'Error building tree: '
+                    . "Can't find item by '$key' key that's used in tree configuration."
+                );
             }
 
             // attach parents to children
             /** @var NodeInterface $item */
             $item = $treeLevel[$key];
-            $itemChildren = $this->build($itemConfig, $plainItems, $flags);
+            $itemChildren = $this->build(
+                $itemConfig,
+                $plainItems,
+                // config must be already normalized, so remove self::NORMALIZE_CONFIG flag on recursive call
+                $flags ^ TreeBuilder::NORMALIZE_CONFIG
+            );
             $item->addChildren($itemChildren);
         }
         return $treeLevel;
