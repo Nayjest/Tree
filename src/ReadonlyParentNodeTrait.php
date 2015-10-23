@@ -3,7 +3,7 @@
 namespace Nayjest\Tree;
 
 use Nayjest\Collection\CollectionReadInterface;
-use Nayjest\Collection\Decorator\ReadonlyCollection;
+use Nayjest\Collection\Decorator\ReadonlyObjectCollection;
 
 trait ReadonlyParentNodeTrait
 {
@@ -21,7 +21,7 @@ trait ReadonlyParentNodeTrait
     public function children()
     {
         if ($this->readonlyCollection === null) {
-            $this->readonlyCollection = new ReadonlyCollection(
+            $this->readonlyCollection = new ReadonlyObjectCollection(
                 $this->writableChildren()
             );
         }
