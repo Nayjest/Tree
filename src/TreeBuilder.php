@@ -58,6 +58,15 @@ class TreeBuilder
                 // config must be already normalized, so remove self::NORMALIZE_CONFIG flag on recursive call
                 $flags ^ TreeBuilder::NORMALIZE_CONFIG
             );
+            if (count($itemChildren) === 0) {
+                continue;
+            }
+            if(!$item->isWritable()) {
+                throw new InvalidTreeConfigException(
+                    'Error building tree: '
+                    . "Can't attach children to '$key' node that is'nt writable."
+                );
+            }
             $item->addChildren($itemChildren);
         }
         return $treeLevel;
