@@ -8,7 +8,7 @@ use Nayjest\Collection\Decorator\ReadonlyObjectCollection;
 trait ReadonlyParentNodeTrait
 {
     use ParentNodeTrait {
-        ParentNodeTrait::children as private writableChildren;
+        ParentNodeTrait::children as protected writableChildren;
     }
 
     private $readonlyCollection;
