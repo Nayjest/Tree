@@ -1,6 +1,7 @@
 <?php
 namespace Nayjest\Tree;
 
+use Evenement\EventEmitterInterface;
 use Nayjest\Collection\Extended\ObjectCollection;
 
 /**
@@ -9,7 +10,7 @@ use Nayjest\Collection\Extended\ObjectCollection;
  * Interface of terminal node in the tree data structure.
  *
  */
-interface ChildNodeInterface
+interface ChildNodeInterface extends EventEmitterInterface
 {
     /**
      * Attaches component to parent.
@@ -47,6 +48,8 @@ interface ChildNodeInterface
      * @return $this
      */
     public function attachTo(ParentNodeInterface $parent);
+
+    public function onParentChange(callable $callback, $once = false);
 
     /**
      * @return ObjectCollection

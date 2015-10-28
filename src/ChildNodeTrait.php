@@ -1,6 +1,7 @@
 <?php
 namespace Nayjest\Tree;
 
+use Evenement\EventEmitterTrait;
 use Nayjest\Collection\Extended\ObjectCollection;
 use Nayjest\Tree\Exceptions\NoParentException;
 use Nayjest\Tree\Exceptions\ReadonlyNodeModifyException;
@@ -13,6 +14,8 @@ use Nayjest\Tree\Exceptions\ReadonlyNodeModifyException;
  */
 trait ChildNodeTrait
 {
+    use EventEmitterTrait;
+
     /**
      * @internal
      * @var ParentNodeInterface|ChildNodeInterface
@@ -27,11 +30,13 @@ trait ChildNodeTrait
      */
     final public function internalSetParent(ParentNodeInterface $parent)
     {
+        $this->emit('parent.change', [$parent, $this]);
         $this->parentNode = $parent;
     }
 
     final public function internalUnsetParent()
     {
+        $this->emit('parent.change', [null, $this]);
         $this->parentNode = null;
     }
 
@@ -52,7 +57,7 @@ trait ChildNodeTrait
     {
         $parents = new ObjectCollection();
         $current = $this->parent();
-        while($current instanceof ParentNodeInterface) {
+        while ($current instanceof ParentNodeInterface) {
             $parents->add($current);
             if (!$current instanceof ChildNodeInterface) {
                 break;
@@ -73,6 +78,16 @@ trait ChildNodeTrait
     {
         self::checkWritableParent($parent);
         $parent->children()->add($this);
+        return $this;
+    }
+
+    public function onParentChange(callable $callback, $once = false)
+    {
+        if ($once) {
+            $this->once('parent.change', $callback);
+        } else {
+            $this->on('parent.change', $callback);
+        }
         return $this;
     }
 
