@@ -2,7 +2,7 @@
 
 namespace Nayjest\Tree;
 
-use Nayjest\Tree\Exceptions\InvalidTreeConfigException;
+use Nayjest\Tree\Exception\InvalidTreeConfigException;
 
 /**
  * TreeBuilder class allows to organize plain nodes into a tree based on configuration.

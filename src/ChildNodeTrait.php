@@ -3,8 +3,8 @@ namespace Nayjest\Tree;
 
 use Evenement\EventEmitterTrait;
 use Nayjest\Collection\Extended\ObjectCollection;
-use Nayjest\Tree\Exceptions\NoParentException;
-use Nayjest\Tree\Exceptions\ReadonlyNodeModifyException;
+use Nayjest\Tree\Exception\NoParentException;
+use Nayjest\Tree\Exception\ReadonlyNodeModifyException;
 
 /**
  * Class ChildNodeTrait

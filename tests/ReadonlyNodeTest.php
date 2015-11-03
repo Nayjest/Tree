@@ -3,7 +3,7 @@
 namespace Nayjest\Tree\Test;
 
 
-use Nayjest\Tree\Exceptions\ReadonlyNodeModifyException;
+use Nayjest\Tree\Exception\ReadonlyNodeModifyException;
 use Nayjest\Tree\Node;
 use Nayjest\Tree\ReadonlyNode;
 use PHPUnit_Framework_TestCase;

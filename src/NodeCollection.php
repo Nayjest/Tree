@@ -4,6 +4,7 @@ namespace Nayjest\Tree;
 
 use InvalidArgumentException;
 use Nayjest\Collection\Extended\ObjectCollection;
+use Nayjest\Tree\Exception\ReadonlyNodeModifyException;
 
 
 /**
@@ -43,16 +44,13 @@ class NodeCollection extends ObjectCollection
             throw new InvalidArgumentException('NodeCollection accepts only objects implementing ChildNodeInterface');
         }
         $old = $item->parent();
-        if ($old !== $this->parentNode) {
-            if ($old !== null) {
-                $item
-                    ->parent()
-                    ->children()
-                    ->remove($item);
-            }
-            parent::add($item, $prepend);
-            $item->internalSetParent($this->parentNode);
+        if ($old === $this->parentNode) {
+            return $this;
+        } elseif ($old !== null) {
+            $item->detach();
         }
+        parent::add($item, $prepend);
+        $item->internalSetParent($this->parentNode);
         return $this;
     }
 
