@@ -41,7 +41,10 @@ class NodeCollection extends ObjectCollection
     public function add($item, $prepend = false)
     {
         if (!$item instanceof ChildNodeInterface) {
-            throw new InvalidArgumentException('NodeCollection accepts only objects implementing ChildNodeInterface');
+            $details = is_object($item) ? get_class($item) : var_export($item, true);
+            throw new InvalidArgumentException(
+                "NodeCollection accepts only objects implementing ChildNodeInterface, $details given."
+            );
         }
         $old = $item->parent();
         if ($old === $this->parentNode) {
