@@ -31,9 +31,9 @@ class TreeBuilderTest extends PHPUnit_Framework_TestCase
         self::assertEquals([$i1, $i4], array_values($tree));
         self::assertEquals(null, $i1->parent());
         self::assertEquals(null, $i4->parent());
-        self::assertEquals($i1, $i2->parent());
-        self::assertEquals($i1, $i3->parent());
-        self::assertEquals($i4, $i5->parent(), 'Test config items that requires normalization.');
+        self::assertTrue($i1 === $i2->parent());
+        self::assertTrue($i1 === $i3->parent());
+        self::assertTrue($i4 === $i5->parent(), 'Test config items that requires normalization.');
     }
 
     public function testEmpty()
@@ -59,5 +59,18 @@ class TreeBuilderTest extends PHPUnit_Framework_TestCase
             $exceptionThrown = true;
         }
         self::assertTrue($exceptionThrown);
+    }
+
+    public function testItemOrder()
+    {
+        $config = ['a', 'b'];
+        $itemsInReverseOrder = [
+            'b' => $b = new Node(),
+            'a' => $a = new Node(),
+        ];
+        $builder = new TreeBuilder();
+        $tree = $builder->build($config, $itemsInReverseOrder);
+
+        self::assertTrue($b === array_pop($tree));
     }
 }

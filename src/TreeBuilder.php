@@ -33,13 +33,10 @@ class TreeBuilder
         if ($flags & TreeBuilder::NORMALIZE_CONFIG) {
             $config = $this->normalizeConfig($config);
         }
-        // resolve nodes on current tree level
-        $treeLevel = array_intersect_key($plainItems, $config);
-
+        $currentLevelItems = [];
         foreach ($config as $key => $itemConfig) {
-
             // check that item specified in $config exists.
-            if (!array_key_exists($key, $treeLevel)) {
+            if (!array_key_exists($key, $plainItems)) {
                 if ($flags & TreeBuilder::ALLOW_ABSENT_ITEMS) {
                     continue;
                 }
@@ -49,9 +46,10 @@ class TreeBuilder
                 );
             }
 
-            // attach parents to children
             /** @var NodeInterface $item */
-            $item = $treeLevel[$key];
+            $currentLevelItems[] = $item = $plainItems[$key];
+
+            // attach children
             $itemChildren = $this->build(
                 $itemConfig,
                 $plainItems,
@@ -69,7 +67,7 @@ class TreeBuilder
             }
             $item->addChildren($itemChildren);
         }
-        return $treeLevel;
+        return $currentLevelItems;
     }
 
     /**
