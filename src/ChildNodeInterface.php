@@ -55,4 +55,19 @@ interface ChildNodeInterface extends EventEmitterInterface
      * @return ObjectCollection
      */
     public function parents();
+
+    /**
+     * @return $this
+     */
+    public function lock();
+
+    /**
+     * @return $this
+     */
+    public function unlock();
+
+    /**
+     * @return bool
+     */
+    public function isLocked();
 }

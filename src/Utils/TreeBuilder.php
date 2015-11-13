@@ -1,8 +1,8 @@
 <?php
 
-namespace Nayjest\Tree;
+namespace Nayjest\Tree\Utils;
 
-use Nayjest\Tree\Exception\InvalidTreeConfigException;
+use Nayjest\Tree\Exception\NodeNotFoundException;
 
 /**
  * TreeBuilder class allows to organize plain nodes into a tree based on configuration.
@@ -19,6 +19,15 @@ class TreeBuilder
      */
     const ALLOW_ABSENT_ITEMS = 2;
 
+    const RESET_CHILDREN = 4;
+
+    private $defaultFlags;
+
+    public function __construct($defaultFlags = 0)
+    {
+        $this->defaultFlags = $defaultFlags;
+    }
+
     /**
      * Builds tree from plain nodes based on configuration.
      *
@@ -29,18 +38,19 @@ class TreeBuilder
      */
     public function build(array $config, array $plainItems, $flags = TreeBuilder::NORMALIZE_CONFIG)
     {
+        $flags = $flags | $this->defaultFlags;
         // preprocess config if needed
-        if ($flags & TreeBuilder::NORMALIZE_CONFIG) {
+        if ($flags & self::NORMALIZE_CONFIG) {
             $config = $this->normalizeConfig($config);
         }
         $currentLevelItems = [];
         foreach ($config as $key => $itemConfig) {
             // check that item specified in $config exists.
             if (!array_key_exists($key, $plainItems)) {
-                if ($flags & TreeBuilder::ALLOW_ABSENT_ITEMS) {
+                if ($flags & self::ALLOW_ABSENT_ITEMS) {
                     continue;
                 }
-                throw new InvalidTreeConfigException(
+                throw new NodeNotFoundException(
                     'Error building tree: '
                     . "Can't find item by '$key' key that's used in tree configuration."
                 );
@@ -59,13 +69,14 @@ class TreeBuilder
             if (count($itemChildren) === 0) {
                 continue;
             }
-            if(!$item->isWritable()) {
+            if (!$item->isWritable()) {
                 throw new InvalidTreeConfigException(
                     'Error building tree: '
                     . "Can't attach children to '$key' node that is'nt writable."
                 );
             }
-            $item->addChildren($itemChildren);
+            $method = $flags & self::RESET_CHILDREN ? 'setChildren' : 'addChildren';
+            $item->{$method}($itemChildren);
         }
         return $currentLevelItems;
     }
@@ -79,7 +90,7 @@ class TreeBuilder
     protected function normalizeConfig(array $config)
     {
         $final = [];
-        foreach($config as $key => $value) {
+        foreach ($config as $key => $value) {
             if (is_array($value)) {
                 $final[$key] = $this->normalizeConfig($value);
             } else {
