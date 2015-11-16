@@ -111,6 +111,7 @@ class Tree
     public function build()
     {
         if  ($this->updateRequired) {
+            $this->updateRequired = false;
             foreach($this->nodes as $node) {
                 if ($node->parent()) {
                     $node->unlock()->detach();
