@@ -158,6 +158,16 @@ class Tree
         return $this;
     }
 
+    public function get($nodeName)
+    {
+        return array_key_exists($nodeName, $this->nodes) ? $this->nodes[$nodeName] : null;
+    }
+
+    public function has($nodeName)
+    {
+        return array_key_exists($nodeName, $this->nodes);
+    }
+
     public function move($nodeName, $newParent, $prepend = false)
     {
 
