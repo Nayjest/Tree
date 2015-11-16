@@ -2,11 +2,8 @@
 
 namespace Nayjest\Tree\Test;
 
-use Nayjest\Collection\Extended\Registry;
-use Nayjest\Tree\Exception\InvalidTreeConfigException;
 use Nayjest\Tree\Node;
 use Nayjest\Tree\Tree;
-use Nayjest\Tree\TreeBuilder;
 use PHPUnit_Framework_TestCase;
 
 class TreeTest extends PHPUnit_Framework_TestCase
