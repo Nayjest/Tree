@@ -2,9 +2,9 @@
 
 namespace Nayjest\Tree\Test;
 
-use Nayjest\Tree\Exception\InvalidTreeConfigException;
+use Nayjest\Tree\Exception\NodeNotFoundException;
 use Nayjest\Tree\Node;
-use Nayjest\Tree\TreeBuilder;
+use Nayjest\Tree\Utils\TreeBuilder;
 use PHPUnit_Framework_TestCase;
 
 class TreeBuilderTest extends PHPUnit_Framework_TestCase
@@ -55,7 +55,7 @@ class TreeBuilderTest extends PHPUnit_Framework_TestCase
         $exceptionThrown = false;
         try {
             $builder->build($config, $items, TreeBuilder::NORMALIZE_CONFIG);
-        } catch(InvalidTreeConfigException $e) {
+        } catch(NodeNotFoundException $e) {
             $exceptionThrown = true;
         }
         self::assertTrue($exceptionThrown);
