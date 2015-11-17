@@ -2,6 +2,8 @@
 
 namespace Nayjest\Tree;
 
+use Nayjest\Collection\Extended\Registry;
+use Nayjest\Collection\Extended\RegistryInterface;
 use Nayjest\Tree\Exception\NodeNotFoundException;
 use Nayjest\Tree\Utils\TreeBuilder;
 
@@ -59,10 +61,13 @@ class Tree
     private $hierarchy;
 
     /**
-     * @var NodeInterface[]
+     * @var NodeInterface[]|RegistryInterface
      */
     private $nodes;
 
+    /**
+     * @var TreeBuilder
+     */
     private $builder;
 
     private $updateRequired = true;
@@ -72,14 +77,20 @@ class Tree
      */
     private $root;
 
+    /**
+     * Tree constructor.
+     * @param ParentNodeInterface $root
+     * @param array $hierarchy
+     * @param array|Registry $nodes
+     */
     public function __construct(
         ParentNodeInterface $root,
         array $hierarchy,
-        array $nodes
+        $nodes
     )
     {
         $this->hierarchy = $hierarchy;
-        $this->nodes = $nodes;
+        $this->nodes = $nodes instanceof Registry ? $nodes : new Registry($nodes);
         $this->builder = new TreeBuilder();
         $this->root = $root;
     }
@@ -97,7 +108,7 @@ class Tree
      */
     public function getNodes()
     {
-        return $this->nodes;
+        return $this->nodes->toArray();
     }
 
     /**
@@ -117,9 +128,9 @@ class Tree
                     $node->unlock()->detach();
                 }
             }
-            $this->root->addChildren($this->builder->build($this->hierarchy, $this->nodes));
+            $this->root->addChildren($this->builder->build($this->hierarchy, $this->nodes->toArray()));
             foreach ($this->nodes as $node) {
-                if ($node->parent() === $this->root || in_array($node->parent(), $this->nodes)) {
+                if ($node->parent() === $this->root || $this->nodes->contains($node->parent())) {
                     $node->lock();
                 }
             }
@@ -146,7 +157,7 @@ class Tree
     public function replace($nodeName, ChildNodeInterface $node)
     {
         $this->removeNodeFromList($nodeName);
-        $this->nodes[$nodeName] = $node;
+        $this->nodes->set($nodeName, $node);
         $this->updateRequired = true;
         return $this;
     }
@@ -161,21 +172,21 @@ class Tree
 
     public function get($nodeName)
     {
-        return array_key_exists($nodeName, $this->nodes) ? $this->nodes[$nodeName] : null;
+        return $this->nodes->get($nodeName);
     }
 
     public function has($nodeName)
     {
-        return array_key_exists($nodeName, $this->nodes);
+        return $this->nodes->hasKey($nodeName);
     }
 
     public function move($nodeName, $newParent, $prepend = false)
     {
 
-        if (!array_key_exists($nodeName, $this->nodes)) {
+        if (!$this->nodes->hasKey($nodeName)) {
             throw new NodeNotFoundException;
         }
-        $node = $this->nodes[$nodeName];
+        $node = $this->nodes->get($nodeName);
         $this->remove($nodeName);
         $this->add($newParent, $nodeName, $node, $prepend);
         return $this;
@@ -212,7 +223,7 @@ class Tree
             );
         }
         $this->removeNodeFromList($nodeName);
-        $this->nodes[$nodeName] = $node;
+        $this->nodes->set($nodeName, $node);
         $this->updateRequired = true;
         return $this;
     }
@@ -275,12 +286,12 @@ class Tree
 
     protected function removeNodeFromList($nodeName)
     {
-        if (array_key_exists($nodeName, $this->nodes)) {
-            $oldNode = $this->nodes[$nodeName];
+        if ($this->nodes->hasKey($nodeName)) {
+            $oldNode = $this->nodes->get($nodeName);
             if ($oldNode->parent()) {
                 $oldNode->unlock()->detach();
             }
-            unset($this->nodes[$nodeName]);
+            $this->nodes->removeByKey($nodeName);
             $this->updateRequired = true;
         }
     }
