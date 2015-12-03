@@ -3,6 +3,8 @@
 namespace Nayjest\Tree\Utils;
 
 use Nayjest\Tree\Exception\NodeNotFoundException;
+use Nayjest\Tree\Exception\ReadonlyNodeModifyException;
+use Nayjest\Tree\NodeInterface;
 
 /**
  * TreeBuilder class allows to organize plain nodes into a tree based on configuration.
@@ -70,7 +72,7 @@ class TreeBuilder
                 continue;
             }
             if (!$item->isWritable()) {
-                throw new InvalidTreeConfigException(
+                throw new ReadonlyNodeModifyException(
                     'Error building tree: '
                     . "Can't attach children to '$key' node that is'nt writable."
                 );

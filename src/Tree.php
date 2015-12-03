@@ -91,7 +91,7 @@ class Tree
     {
         $this->hierarchy = $hierarchy;
         $this->nodes = $nodes instanceof Registry ? $nodes : new Registry($nodes);
-        $this->builder = new TreeBuilder();
+        $this->builder = Utils::getDefaultTreeBuilder();
         $this->root = $root;
     }
 
