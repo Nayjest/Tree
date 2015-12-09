@@ -1,4 +1,5 @@
 <?php
+
 namespace Nayjest\Tree;
 
 use Nayjest\Collection\CollectionInterface;
@@ -7,10 +8,9 @@ use Nayjest\Collection\Extended\ObjectCollection;
 use Traversable;
 
 /**
- * Interface ParentNodeInterface
+ * Interface ParentNodeInterface.
  *
  * Interface of parent node in the tree data structure.
- *
  */
 interface ParentNodeInterface
 {
@@ -35,20 +35,22 @@ interface ParentNodeInterface
 
     /**
      * @param array|Traversable $children
+     *
      * @return $this
      */
     public function setChildren($children);
 
     /**
      * @param $item
+     *
      * @return $this
      */
     public function addChild(ChildNodeInterface $item);
 
     /**
      * @param array|Traversable $children
+     *
      * @return $this
      */
     public function addChildren($children);
-
 }

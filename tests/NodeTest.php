@@ -1,4 +1,5 @@
 <?php
+
 namespace Nayjest\Tree\Test;
 
 use Nayjest\Tree\Node;
@@ -23,12 +24,13 @@ class NodeTest extends PHPUnit_Framework_TestCase
             null,
             [
                 $this->n1 = new Node(),
-                $this->n2 = new Node()
+                $this->n2 = new Node(),
             ]
         );
         $this->detached = new Node();
         $this->n1Child = new Node($this->n1);
     }
+
     public function testInitial()
     {
         self::assertEmpty($this->n2->children());
@@ -41,7 +43,7 @@ class NodeTest extends PHPUnit_Framework_TestCase
 
     public function testAdd()
     {
-        $oldRoot = new Node;
+        $oldRoot = new Node();
         $n = new Node($oldRoot);
 
         $this->root->children()->add($n);
@@ -73,8 +75,6 @@ class NodeTest extends PHPUnit_Framework_TestCase
     {
         self::assertNull($this->detached->parent());
         self::assertFalse($this->root->children()->contains($this->detached));
-
-
 
         self::assertEquals($this->root, $this->n1->parent());
         self::assertTrue($this->root->children()->contains($this->n1));

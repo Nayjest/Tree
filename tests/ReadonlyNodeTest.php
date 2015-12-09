@@ -2,7 +2,6 @@
 
 namespace Nayjest\Tree\Test;
 
-
 use Nayjest\Tree\Exception\ReadonlyNodeModifyException;
 use Nayjest\Tree\Node;
 use Nayjest\Tree\ReadonlyNode;
@@ -17,8 +16,8 @@ class ReadonlyNodeTest extends PHPUnit_Framework_TestCase
         $detached1 = new Node();
         $detached2 = new ReadonlyNode();
         $node = new ReadonlyNode(null, [
-           $child1,
-           $child2
+            $child1,
+            $child2,
         ]);
         self::assertTrue($node->children()->contains($child1));
         self::assertTrue($node->children()->contains($child2));
@@ -63,6 +62,5 @@ class ReadonlyNodeTest extends PHPUnit_Framework_TestCase
         }
         self::assertNotEmpty($expectedE);
         self::assertFalse($node->children()->contains($detached2));
-
     }
 }

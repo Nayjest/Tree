@@ -1,14 +1,14 @@
 <?php
+
 namespace Nayjest\Tree;
 
 use Evenement\EventEmitterInterface;
 use Nayjest\Collection\Extended\ObjectCollection;
 
 /**
- * Interface ChildNodeInterface
+ * Interface ChildNodeInterface.
  *
  * Interface of terminal node in the tree data structure.
- *
  */
 interface ChildNodeInterface extends EventEmitterInterface
 {
@@ -55,4 +55,19 @@ interface ChildNodeInterface extends EventEmitterInterface
      * @return ObjectCollection
      */
     public function parents();
+
+    /**
+     * @return $this
+     */
+    public function lock();
+
+    /**
+     * @return $this
+     */
+    public function unlock();
+
+    /**
+     * @return bool
+     */
+    public function isLocked();
 }

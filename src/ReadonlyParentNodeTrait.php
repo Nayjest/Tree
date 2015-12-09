@@ -25,6 +25,7 @@ trait ReadonlyParentNodeTrait
                 $this->writableChildren()
             );
         }
+
         return $this->readonlyCollection;
     }
 }

@@ -1,16 +1,17 @@
 <?php
+
 namespace Nayjest\Tree;
 
 use Evenement\EventEmitterTrait;
 use Nayjest\Collection\Extended\ObjectCollection;
+use Nayjest\Tree\Exception\LockedNodeException;
 use Nayjest\Tree\Exception\NoParentException;
 use Nayjest\Tree\Exception\ReadonlyNodeModifyException;
 
 /**
- * Class ChildNodeTrait
+ * Class ChildNodeTrait.
  *
  * @implements ChildNodeInterface
- *
  */
 trait ChildNodeTrait
 {
@@ -18,14 +19,18 @@ trait ChildNodeTrait
 
     /**
      * @internal
+     *
      * @var ParentNodeInterface|ChildNodeInterface
      * */
     private $parentNode;
+
+    private $locked = false;
 
     /**
      * Attaches component to registry.
      *
      * @param ParentNodeInterface $parent
+     *
      * @return null
      */
     final public function internalSetParent(ParentNodeInterface $parent)
@@ -64,20 +69,23 @@ trait ChildNodeTrait
             }
             $current = $current->parent();
         }
+
         return $parents;
     }
 
     final public function detach()
     {
-        self::checkWritableParent($this->parentNode);
+        $this->checkParentRelation($this->parentNode);
         $this->parentNode->children()->remove($this);
+
         return $this;
     }
 
     final public function attachTo(ParentNodeInterface $parent)
     {
-        self::checkWritableParent($parent);
+        $this->checkParentRelation($parent);
         $parent->children()->add($this);
+
         return $this;
     }
 
@@ -88,16 +96,39 @@ trait ChildNodeTrait
         } else {
             $this->on('parent.change', $callback);
         }
+
         return $this;
     }
 
-    private static function checkWritableParent(ParentNodeInterface $parent = null)
+    private function checkParentRelation(ParentNodeInterface $parent = null)
     {
         if ($parent === null) {
-            throw new NoParentException;
+            throw new NoParentException();
         }
         if (!$parent->isWritable()) {
-            throw new ReadonlyNodeModifyException;
+            throw new ReadonlyNodeModifyException();
         }
+        if ($this->isLocked()) {
+            throw new LockedNodeException();
+        }
+    }
+
+    public function lock()
+    {
+        $this->locked = true;
+
+        return $this;
+    }
+
+    public function unlock()
+    {
+        $this->locked = false;
+
+        return $this;
+    }
+
+    public function isLocked()
+    {
+        return $this->locked;
     }
 }
