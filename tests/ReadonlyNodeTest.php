@@ -17,8 +17,8 @@ class ReadonlyNodeTest extends PHPUnit_Framework_TestCase
         $detached1 = new Node();
         $detached2 = new ReadonlyNode();
         $node = new ReadonlyNode(null, [
-           $child1,
-           $child2
+            $child1,
+            $child2
         ]);
         self::assertTrue($node->children()->contains($child1));
         self::assertTrue($node->children()->contains($child2));

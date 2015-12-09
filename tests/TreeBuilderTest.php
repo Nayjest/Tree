@@ -13,8 +13,8 @@ class TreeBuilderTest extends PHPUnit_Framework_TestCase
     {
         $config = [
             1 => [
-                2=>[],
-                3=>[]
+                2 => [],
+                3 => []
             ],
             4 => [5]
         ];
@@ -39,7 +39,7 @@ class TreeBuilderTest extends PHPUnit_Framework_TestCase
     public function testEmpty()
     {
         $builder = new TreeBuilder();
-        self::assertEquals([], $builder->build([],[]));
+        self::assertEquals([], $builder->build([], []));
     }
 
     public function testAbsentItem()
@@ -55,7 +55,7 @@ class TreeBuilderTest extends PHPUnit_Framework_TestCase
         $exceptionThrown = false;
         try {
             $builder->build($config, $items, TreeBuilder::NORMALIZE_CONFIG);
-        } catch(NodeNotFoundException $e) {
+        } catch (NodeNotFoundException $e) {
             $exceptionThrown = true;
         }
         self::assertTrue($exceptionThrown);

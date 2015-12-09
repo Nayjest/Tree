@@ -64,7 +64,7 @@ class UtilsTest extends PHPUnit_Framework_TestCase
         self::assertTrue(in_array($newNode, $initialized, true));
 
         $newNode->detach(); // 6 new nodes instead of 7 must be added
-        $callback2 =  function (Node $node) use (&$initialized) {
+        $callback2 = function (Node $node) use (&$initialized) {
             $initialized[] = $node;
         };
         Utils::applyCallback($callback2, $this->root);

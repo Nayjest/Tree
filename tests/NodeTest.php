@@ -29,6 +29,7 @@ class NodeTest extends PHPUnit_Framework_TestCase
         $this->detached = new Node();
         $this->n1Child = new Node($this->n1);
     }
+
     public function testInitial()
     {
         self::assertEmpty($this->n2->children());
@@ -73,7 +74,6 @@ class NodeTest extends PHPUnit_Framework_TestCase
     {
         self::assertNull($this->detached->parent());
         self::assertFalse($this->root->children()->contains($this->detached));
-
 
 
         self::assertEquals($this->root, $this->n1->parent());
