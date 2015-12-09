@@ -23,11 +23,11 @@ class UtilsTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->root = new Node;
+        $this->root = new Node();
         $this->attCh = new Node($this->root);
         $this->attChL2 = new Node($this->attCh);
 
-        $this->ch = new Node;
+        $this->ch = new Node();
         $this->chL2 = new Node($this->ch);
         $this->chL3 = new Node($this->chL2);
     }

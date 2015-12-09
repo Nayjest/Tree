@@ -5,8 +5,6 @@ namespace Nayjest\Tree;
 use InvalidArgumentException;
 use Nayjest\Collection\Extended\ObjectCollection;
 use Nayjest\Tree\Exception\LockedNodeException;
-use Nayjest\Tree\Exception\ReadonlyNodeModifyException;
-
 
 /**
  * Class NodeCollection.
@@ -24,8 +22,7 @@ class NodeCollection extends ObjectCollection
     public function __construct(
         ParentNodeInterface $parentNode,
         array $nodes = null
-    )
-    {
+    ) {
         $this->parentNode = $parentNode;
         parent::__construct($nodes);
     }
@@ -36,7 +33,8 @@ class NodeCollection extends ObjectCollection
      * If component is already in collection, it will not be added twice.
      *
      * @param ChildNodeInterface $item
-     * @param bool $prepend Pass true to add component to the beginning of an array.
+     * @param bool               $prepend Pass true to add component to the beginning of an array.
+     *
      * @return $this
      */
     public function add($item, $prepend = false)
@@ -56,11 +54,13 @@ class NodeCollection extends ObjectCollection
         $this->checkUnlocked($item);
         parent::add($item, $prepend);
         $item->internalSetParent($this->parentNode);
+
         return $this;
     }
 
     /**
      * @param ChildNodeInterface $item
+     *
      * @return $this
      */
     public function remove($item)
@@ -70,6 +70,7 @@ class NodeCollection extends ObjectCollection
             $item->internalUnsetParent();
             parent::remove($item);
         }
+
         return $this;
     }
 
@@ -80,6 +81,7 @@ class NodeCollection extends ObjectCollection
             $this->checkUnlocked($item);
             $item->internalUnsetParent();
         }
+
         return parent::clear();
     }
 
@@ -91,7 +93,7 @@ class NodeCollection extends ObjectCollection
     private function checkUnlocked(ChildNodeInterface $child)
     {
         if ($child->isLocked()) {
-            throw new LockedNodeException;
+            throw new LockedNodeException();
         }
     }
 }

@@ -12,12 +12,12 @@ use Nayjest\Tree\NodeInterface;
 class TreeBuilder
 {
     /**
-     * Transforms array in form [1,2 => [3]] to [1=>[], 2=>[3=>[]]]
+     * Transforms array in form [1,2 => [3]] to [1=>[], 2=>[3=>[]]].
      */
     const NORMALIZE_CONFIG = 1;
 
     /**
-     * Allows absent nodes in config
+     * Allows absent nodes in config.
      */
     const ALLOW_ABSENT_ITEMS = 2;
 
@@ -33,12 +33,13 @@ class TreeBuilder
     /**
      * Builds tree from plain nodes based on configuration.
      *
-     * @param array $config multidimensional array that represents tree structure
+     * @param array           $config     multidimensional array that represents tree structure
      * @param NodeInterface[] $plainItems nodes that must be organized to tree
-     * @param int $flags specifies tree building options, default: TreeBuilder::NORMALIZE_CONFIG; see TreeBuilder constants
+     * @param int             $flags      specifies tree building options, default: TreeBuilder::NORMALIZE_CONFIG; see TreeBuilder constants
+     *
      * @return NodeInterface[] items organized to tree structure; array keys are not preserved
      */
-    public function build(array $config, array $plainItems, $flags = TreeBuilder::NORMALIZE_CONFIG)
+    public function build(array $config, array $plainItems, $flags = self::NORMALIZE_CONFIG)
     {
         $flags = $flags | $this->defaultFlags;
         // preprocess config if needed
@@ -54,11 +55,11 @@ class TreeBuilder
                 }
                 throw new NodeNotFoundException(
                     'Error building tree: '
-                    . "Can't find item by '$key' key that's used in tree configuration."
+                    ."Can't find item by '$key' key that's used in tree configuration."
                 );
             }
 
-            /** @var NodeInterface $item */
+            /* @var NodeInterface $item */
             $currentLevelItems[] = $item = $plainItems[$key];
 
             // attach children
@@ -66,7 +67,7 @@ class TreeBuilder
                 $itemConfig,
                 $plainItems,
                 // config must be already normalized, so remove self::NORMALIZE_CONFIG flag on recursive call
-                $flags ^ TreeBuilder::NORMALIZE_CONFIG
+                $flags ^ self::NORMALIZE_CONFIG
             );
             if (count($itemChildren) === 0) {
                 continue;
@@ -74,12 +75,13 @@ class TreeBuilder
             if (!$item->isWritable()) {
                 throw new ReadonlyNodeModifyException(
                     'Error building tree: '
-                    . "Can't attach children to '$key' node that is'nt writable."
+                    ."Can't attach children to '$key' node that is'nt writable."
                 );
             }
             $method = $flags & self::RESET_CHILDREN ? 'setChildren' : 'addChildren';
             $item->{$method}($itemChildren);
         }
+
         return $currentLevelItems;
     }
 
@@ -87,6 +89,7 @@ class TreeBuilder
      * Transforms array in form [1,2 => [3]] to [1=>[], 2=>[3=>[]]].
      *
      * @param array $config
+     *
      * @return array
      */
     protected function normalizeConfig(array $config)
@@ -99,6 +102,7 @@ class TreeBuilder
                 $final[$value] = [];
             }
         }
+
         return $final;
     }
 }

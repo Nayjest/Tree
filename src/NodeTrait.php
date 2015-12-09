@@ -1,4 +1,5 @@
 <?php
+
 namespace Nayjest\Tree;
 
 trait NodeTrait

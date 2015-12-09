@@ -9,8 +9,7 @@ trait NodeConstructorTrait
     public function __construct(
         ParentNodeInterface $parent = null,
         array $children = null
-    )
-    {
+    ) {
         if ($children !== null) {
             $this->initializeCollection($children);
         }

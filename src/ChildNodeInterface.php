@@ -1,14 +1,14 @@
 <?php
+
 namespace Nayjest\Tree;
 
 use Evenement\EventEmitterInterface;
 use Nayjest\Collection\Extended\ObjectCollection;
 
 /**
- * Interface ChildNodeInterface
+ * Interface ChildNodeInterface.
  *
  * Interface of terminal node in the tree data structure.
- *
  */
 interface ChildNodeInterface extends EventEmitterInterface
 {

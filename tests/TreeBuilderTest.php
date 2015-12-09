@@ -14,9 +14,9 @@ class TreeBuilderTest extends PHPUnit_Framework_TestCase
         $config = [
             1 => [
                 2 => [],
-                3 => []
+                3 => [],
             ],
-            4 => [5]
+            4 => [5],
         ];
         $items = [
             1 => $i1 = new Node(),
@@ -45,7 +45,7 @@ class TreeBuilderTest extends PHPUnit_Framework_TestCase
     public function testAbsentItem()
     {
         $config = [
-            1 => [2]
+            1 => [2],
         ];
         $items = [
             1 => $i1 = new Node(),

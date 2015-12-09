@@ -1,4 +1,5 @@
 <?php
+
 namespace Nayjest\Tree;
 
 use Evenement\EventEmitterTrait;
@@ -8,10 +9,9 @@ use Nayjest\Tree\Exception\NoParentException;
 use Nayjest\Tree\Exception\ReadonlyNodeModifyException;
 
 /**
- * Class ChildNodeTrait
+ * Class ChildNodeTrait.
  *
  * @implements ChildNodeInterface
- *
  */
 trait ChildNodeTrait
 {
@@ -19,6 +19,7 @@ trait ChildNodeTrait
 
     /**
      * @internal
+     *
      * @var ParentNodeInterface|ChildNodeInterface
      * */
     private $parentNode;
@@ -29,6 +30,7 @@ trait ChildNodeTrait
      * Attaches component to registry.
      *
      * @param ParentNodeInterface $parent
+     *
      * @return null
      */
     final public function internalSetParent(ParentNodeInterface $parent)
@@ -67,6 +69,7 @@ trait ChildNodeTrait
             }
             $current = $current->parent();
         }
+
         return $parents;
     }
 
@@ -74,6 +77,7 @@ trait ChildNodeTrait
     {
         $this->checkParentRelation($this->parentNode);
         $this->parentNode->children()->remove($this);
+
         return $this;
     }
 
@@ -81,6 +85,7 @@ trait ChildNodeTrait
     {
         $this->checkParentRelation($parent);
         $parent->children()->add($this);
+
         return $this;
     }
 
@@ -91,31 +96,34 @@ trait ChildNodeTrait
         } else {
             $this->on('parent.change', $callback);
         }
+
         return $this;
     }
 
     private function checkParentRelation(ParentNodeInterface $parent = null)
     {
         if ($parent === null) {
-            throw new NoParentException;
+            throw new NoParentException();
         }
         if (!$parent->isWritable()) {
-            throw new ReadonlyNodeModifyException;
+            throw new ReadonlyNodeModifyException();
         }
         if ($this->isLocked()) {
-            throw new LockedNodeException;
+            throw new LockedNodeException();
         }
     }
 
     public function lock()
     {
         $this->locked = true;
+
         return $this;
     }
 
     public function unlock()
     {
         $this->locked = false;
+
         return $this;
     }
 

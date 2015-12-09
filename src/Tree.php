@@ -8,8 +8,9 @@ use Nayjest\Tree\Exception\NodeNotFoundException;
 use Nayjest\Tree\Utils\TreeBuilder;
 
 /**
- * Class Tree
+ * Class for working with tree.
  *
+ * ==== [ RU ] ====
  * Класс для работы с деревом.
  *
  * Особенности реализации:
@@ -47,7 +48,6 @@ use Nayjest\Tree\Utils\TreeBuilder;
  *      Cons/Pros
  *        + позволяет свободно модифицировать узлы, не считая связей, определенных деревом
  *        + Через API узлов нельзя сломать структуру дерева
- *
  */
 class Tree
 {
@@ -79,16 +79,16 @@ class Tree
 
     /**
      * Tree constructor.
+     *
      * @param ParentNodeInterface $root
-     * @param array $hierarchy
-     * @param array|Registry $nodes
+     * @param array               $hierarchy
+     * @param array|Registry      $nodes
      */
     public function __construct(
         ParentNodeInterface $root,
         array $hierarchy,
         $nodes
-    )
-    {
+    ) {
         $this->hierarchy = $hierarchy;
         $this->nodes = $nodes instanceof Registry ? $nodes : new Registry($nodes);
         $this->builder = Utils::getDefaultTreeBuilder();
@@ -121,9 +121,9 @@ class Tree
 
     public function build()
     {
-        if  ($this->updateRequired) {
+        if ($this->updateRequired) {
             $this->updateRequired = false;
-            foreach($this->nodes as $node) {
+            foreach ($this->nodes as $node) {
                 if ($node->parent()) {
                     $node->unlock()->detach();
                 }
@@ -150,8 +150,9 @@ class Tree
     /**
      * Replaces named tree node to new one.
      *
-     * @param string $nodeName
+     * @param string             $nodeName
      * @param ChildNodeInterface $node
+     *
      * @return $this
      */
     public function replace($nodeName, ChildNodeInterface $node)
@@ -159,14 +160,16 @@ class Tree
         $this->removeNodeFromList($nodeName);
         $this->nodes->set($nodeName, $node);
         $this->updateRequired = true;
+
         return $this;
     }
 
     public function addMany($parentName, array $namedItems, $prepend = false)
     {
-        foreach($namedItems as $name => $item) {
+        foreach ($namedItems as $name => $item) {
             $this->add($parentName, $name, $item, $prepend);
         }
+
         return $this;
     }
 
@@ -182,13 +185,13 @@ class Tree
 
     public function move($nodeName, $newParent, $prepend = false)
     {
-
         if (!$this->nodes->hasKey($nodeName)) {
-            throw new NodeNotFoundException;
+            throw new NodeNotFoundException();
         }
         $node = $this->nodes->get($nodeName);
         $this->remove($nodeName);
         $this->add($newParent, $nodeName, $node, $prepend);
+
         return $this;
     }
 
@@ -196,6 +199,7 @@ class Tree
      * Removes node.
      *
      * @param $nodeName
+     *
      * @return $this
      */
     public function remove($nodeName)
@@ -204,15 +208,17 @@ class Tree
         // @todo remove all children
         $this->removeNodeFromList($nodeName);
         $this->updateRequired = true;
+
         return $this;
     }
 
     /**
      * Adds new tree node. If node exists, replaces it.
      *
-     * @param string|null $parentName root if null
-     * @param string $nodeName new node name
+     * @param string|null        $parentName root if null
+     * @param string             $nodeName   new node name
      * @param ChildNodeInterface $node
+     *
      * @return $this
      */
     protected function add($parentName = null, $nodeName, ChildNodeInterface $node, $prepend = false)
@@ -225,18 +231,21 @@ class Tree
         $this->removeNodeFromList($nodeName);
         $this->nodes->set($nodeName, $node);
         $this->updateRequired = true;
+
         return $this;
     }
 
     /**
      * @todo try array_walk_recursive
-     * @param array $tree
+     *
+     * @param array  $tree
      * @param string $parent node name or null for inserting into root node
      * @param $node
+     *
      * @throws \Exception
+     *
      * @return bool false if no parent found
      */
-
     private static function addTreeNode(array &$tree, $parent, $node, $prepend = false)
     {
         if ($parent === null) {
@@ -248,9 +257,10 @@ class Tree
             } else {
                 $tree[$node] = [];
             }
+
             return true;
         }
-        foreach($tree as $key => &$value) {
+        foreach ($tree as $key => &$value) {
             if ($key === $parent) {
                 return self::addTreeNode($value, null, $node, $prepend);
             } else {
@@ -259,20 +269,23 @@ class Tree
                 }
             }
         }
+
         return false;
     }
 
     /**
      * @param array $config
      * @param $node
+     *
      * @return false|array children of deleted node
      */
     private static function removeTreeNode(array &$config, $node)
     {
-        foreach($config as $key => &$value) {
+        foreach ($config as $key => &$value) {
             if ($key === $node) {
                 $children = $config[$node];
                 unset($config[$node]);
+
                 return $children;
             } else {
                 $result = self::removeTreeNode($value, $node);
@@ -281,6 +294,7 @@ class Tree
                 }
             }
         }
+
         return false;
     }
 
