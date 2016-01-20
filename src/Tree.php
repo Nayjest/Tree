@@ -70,6 +70,9 @@ class Tree
      */
     private $builder;
 
+    /**
+     * @var bool
+     */
     private $updateRequired = true;
 
     /**
@@ -119,6 +122,10 @@ class Tree
         return $this->hierarchy;
     }
 
+    /**
+     * Builds tree based on its nodes registry and hierarchy configuration
+     * if structure update required.
+     */
     public function build()
     {
         if ($this->updateRequired) {
@@ -137,11 +144,23 @@ class Tree
         }
     }
 
+    /**
+     * @param string|null $parentName
+     * @param string $nodeName
+     * @param ChildNodeInterface $node
+     * @return Tree
+     */
     public function append($parentName = null, $nodeName, ChildNodeInterface $node)
     {
         return $this->add($parentName, $nodeName, $node, false);
     }
 
+    /**
+     * @param string|null $parentName
+     * @param string $nodeName
+     * @param ChildNodeInterface $node
+     * @return Tree
+     */
     public function prepend($parentName = null, $nodeName, ChildNodeInterface $node)
     {
         return $this->add($parentName, $nodeName, $node, true);
@@ -164,6 +183,14 @@ class Tree
         return $this;
     }
 
+    /**
+     * Adds multiple nodes to tree.
+     *
+     * @param string|null $parentName root node will be used if null
+     * @param array $namedItems array with nodes where keys are node names
+     * @param bool $prepend if true, nodes will be prepended, otherwise appended to parent
+     * @return $this
+     */
     public function addMany($parentName, array $namedItems, $prepend = false)
     {
         foreach ($namedItems as $name => $item) {
@@ -173,32 +200,52 @@ class Tree
         return $this;
     }
 
+    /**
+     * Finds node by its name.
+     *
+     * @param string $nodeName
+     * @return null|object
+     */
     public function get($nodeName)
     {
         return $this->nodes->get($nodeName);
     }
 
+    /**
+     * Returns true if tree contains node with specified name, returns false otherwise.
+     *
+     * @param string $nodeName
+     * @return bool
+     */
     public function has($nodeName)
     {
         return $this->nodes->hasKey($nodeName);
     }
 
-    public function move($nodeName, $newParent, $prepend = false)
+    /**
+     * Moves node to another parent.
+     *
+     * @param string $nodeName target node name
+     * @param string|null $newParentName parent node name;  root will be used if null
+     * @param bool $prepend
+     * @return $this
+     */
+    public function move($nodeName, $newParentName, $prepend = false)
     {
         if (!$this->nodes->hasKey($nodeName)) {
             throw new NodeNotFoundException();
         }
         $node = $this->nodes->get($nodeName);
         $this->remove($nodeName);
-        $this->add($newParent, $nodeName, $node, $prepend);
+        $this->add($newParentName, $nodeName, $node, $prepend);
 
         return $this;
     }
 
     /**
-     * Removes node.
+     * Removes node by its name.
      *
-     * @param $nodeName
+     * @param string $nodeName
      *
      * @return $this
      */
