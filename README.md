@@ -22,6 +22,35 @@ Run following command:
 composer require nayjest/tree
 ```
 
+## Overview
+
+#### Tree Nodes
+
+Nodes are basic tree elements.
+This package represents tree nodes as instances of Nayjest\Tree\Node.
+Since nodes here don't holds any functionality beyond the scope of organizing into a trees, the package is designed for extending its components functionality in different ways:
+- Extend base classes (Node, ReadonlyNode)
+- Provide your own implementations of ParentNodeInterface and ChildNodeInterface
+- Use traits (NodeTrait, ChildNodeTrait, ParentNodeTrait, ReadonlyNodeTrait) and interfaces if you can't use node classes as base classes
+
+#### Node Collections
+
+Each node stores its children inside instance of Nayjest\Tree\NodeCollection.
+
+This package uses [nayjest/collections](https://github.com/Nayjest/Collection) for working with collections.
+
+*Nayjest\Tree\NodeCollection provides consistency of parent-child node relations*. It means that if you will add node to collection, this node will be automatically attached to parent node associated with collection, if you will remove node from collection, node will be detached from parent node. 
+
+#### Nayjest\Tree\Tree
+This class allows to:
+- organize trees with named nodes
+- build tree basing on registry of nodes(associative array where keys are names and values are nodes) and hierarchy configuration (multidimantional array containing only node names) 
+- manipulate named nodes in convenient way (Tree API)
+- protect tree from modifying witn Node API methods to avoid inconsistency
+
+#### Nayjest\Tree\Utils
+This class is a facade for helper functions.
+
 ## Testing
 
 Run following command:
