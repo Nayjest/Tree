@@ -35,7 +35,7 @@ class Utils
     }
 
     /**
-     * Applies callback to root node, all it's existing and further descendant nodes directly after adding to tree.
+     * Applies callback to root node, if it's existing and further descendant nodes directly after adding to tree.
      *
      * @param callable      $callback    function to apply
      * @param NodeInterface $root        root node
