@@ -39,14 +39,16 @@ Each node stores its children inside instance of Nayjest\Tree\NodeCollection.
 
 This package uses [nayjest/collections](https://github.com/Nayjest/Collection) for working with collections.
 
-*Nayjest\Tree\NodeCollection provides consistency of parent-child node relations*. It means that if you will add node to collection, this node will be automatically attached to parent node associated with collection, if you will remove node from collection, node will be detached from parent node. 
+Class Nayjest\Tree\NodeCollection provides consistency of parent-child node relations. 
 
-#### Nayjest\Tree\Tree
-This class allows to:
-- organize trees with named nodes
-- build tree basing on registry of nodes(associative array where keys are names and values are nodes) and hierarchy configuration (multidimantional array containing only node names) 
-- manipulate named nodes in convenient way (Tree API)
-- protect tree from modifying witn Node API methods to avoid inconsistency
+It means that if you will add node to collection, this node will be automatically attached to parent node associated with collection, if you will remove node from collection, node will be detached from parent node. 
+
+#### Trees
+Class Nayjest\Tree\Tree allows to:
+- organize trees with *named nodes* (nodes itself don't store information about its name, class Tree works with any objects that implements NodeInterface)
+- *build tree based on hierarchy configuration* (multidimantional array containing only node names) and registry of nodes(associative array where keys are names and values are nodes)
+- **manipulate named nodes** in convenient way (Tree API)
+- **protect tree structure** from modifying via Node API methods to avoid inconsistency of node relations.
 
 #### Nayjest\Tree\Utils
 This class is a facade for helper functions.
