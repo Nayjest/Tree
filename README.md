@@ -46,7 +46,7 @@ It means that if you will add node to collection, this node will be automaticall
 #### Trees
 Class Nayjest\Tree\Tree allows to:
 - organize trees with **named nodes** (nodes itself don't store information about its name, class Tree works with any objects that implements NodeInterface)
-- *build tree based on hierarchy configuration* (multidimantional array containing only node names) and registry of nodes(associative array where keys are names and values are nodes)
+- build *tree based on hierarchy configuration* (multidimantional array containing only node names) and registry of nodes(associative array where keys are names and values are nodes)
 - **manipulate named nodes** in convenient way (Tree API)
 - **protect tree structure** from modifying via Node API methods to avoid inconsistency of node relations.
 
