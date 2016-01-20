@@ -9,9 +9,10 @@ use Nayjest\Tree\Exception\NoParentException;
 use Nayjest\Tree\Exception\ReadonlyNodeModifyException;
 
 /**
- * Class ChildNodeTrait.
+ * Trait ChildNodeTrait.
  *
  * @implements ChildNodeInterface
+ * @see ChildNodeInterface
  */
 trait ChildNodeTrait
 {

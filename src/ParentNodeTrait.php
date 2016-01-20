@@ -6,9 +6,10 @@ use Nayjest\Collection\Extended\ObjectCollection;
 use Traversable;
 
 /**
- * Class ParentNodeTrait.
+ * Trait ParentNodeTrait.
  *
  * @implements ParentNodeInterface
+ * @see ParentNodeInterface
  */
 trait ParentNodeTrait
 {
