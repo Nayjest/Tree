@@ -63,7 +63,7 @@ phpunit
 
 ## License
 
-© 2014 — 2015 Vitalii Stepanenko
+© 2014—2016 Vitalii Stepanenko
 
 Licensed under the MIT License.
 
