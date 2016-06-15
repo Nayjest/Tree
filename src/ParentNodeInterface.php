@@ -22,21 +22,22 @@ interface ParentNodeInterface
     public function children();
 
     /**
-     * Returns true if children collection is writable, returns false otherwise.
+     * Returns true if collection of child nodes is writable (open for modifications), returns false otherwise.
      *
      * @return bool
      */
     public function isWritable();
 
     /**
-     * Returns all descendant nodes.
+     * Returns collection containing all descendant nodes.
      *
-     * @return CollectionInterface|ObjectCollection
+     * @return CollectionInterface|ObjectCollection|ChildNodeInterface[]
      */
     public function getChildrenRecursive();
 
     /**
      * Attaches child nodes. If current node has another children, they will be replaced.
+     * 
      * @param array|Traversable $children
      *
      * @return $this
@@ -52,9 +53,9 @@ interface ParentNodeInterface
     public function addChild(ChildNodeInterface $item);
 
     /**
-     * Attaches list of child nodes.
+     * Clears collection of child nodes and attaches new children.
      *
-     * @param array|Traversable $children
+     * @param Traversable|ChildNodeInterface[] $children
      *
      * @return $this
      */
