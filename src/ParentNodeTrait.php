@@ -14,14 +14,15 @@ use Traversable;
 trait ParentNodeTrait
 {
     /**
+     * Collection of child nodes (objects implementing ChildNodeInterface)
      * @var NodeCollection
      */
     protected $collection;
 
     /**
-     * Returns default child components.
+     * Returns array containing default child nodes.
      *
-     * Override this method if you need.
+     * Override this method if you need to implement parent node class that must contain certain children by default.
      *
      * @return ChildNodeInterface[]
      */
@@ -31,6 +32,11 @@ trait ParentNodeTrait
     }
 
     /**
+     * Initializes collection of child nodes.
+     * 
+     * This method is called once when accessing collection first time
+     * or constructing node with children passed to constructor argument.
+     * 
      * @param array $items
      */
     protected function initializeCollection(array $items)
@@ -43,9 +49,9 @@ trait ParentNodeTrait
     }
 
     /**
-     * Returns child components.
+     * Returns collection of child nodes.
      *
-     * @return \Nayjest\Collection\CollectionInterface
+     * @return \Nayjest\Collection\CollectionInterface|ChildNodeInterface[]
      */
     public function children()
     {
@@ -57,6 +63,8 @@ trait ParentNodeTrait
     }
 
     /**
+     * Returns true if collection of child nodes is writable (open for modifications), returns false otherwise.
+     * 
      * @return bool
      */
     final public function isWritable()
@@ -65,7 +73,9 @@ trait ParentNodeTrait
     }
 
     /**
-     * @return ObjectCollection
+     * Returns collection containing all descendant nodes.
+     * 
+     * @return CollectionInterface|ObjectCollection|ChildNodeInterface[]
      */
     public function getChildrenRecursive()
     {
@@ -81,7 +91,9 @@ trait ParentNodeTrait
     }
 
     /**
-     * @param array|Traversable $children
+     * Clears collection of child nodes and attaches new children.
+     * 
+     * @param Traversable|ChildNodeInterface[] $children
      *
      * @return $this
      */
@@ -93,7 +105,9 @@ trait ParentNodeTrait
     }
 
     /**
-     * @param $item
+     * Attaches child node.
+     * 
+     * @param ChildNodeInterface $item
      *
      * @return $this
      */
@@ -105,6 +119,8 @@ trait ParentNodeTrait
     }
 
     /**
+     * Attaches list of child nodes.
+     * 
      * @param array|Traversable $children
      *
      * @return $this
